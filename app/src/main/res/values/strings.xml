@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">PopularMoviesApp</string>
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+
+    <string name="connectivity_fail">Internet connectivity lost!</string>
+    <string name="error_string">There was an error collecting the movies!</string>
+    <string name="title_activity_sample">Sample</string>
+
+    <string name="action_sort_popular">Popular</string>
+    <string name="action_sort_top_rated">Top rated</string>
+
+    <string name="movie_detail_title">Movie details</string>
+
+</resources>
