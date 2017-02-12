@@ -1,2 +1,2 @@
 # PopularMoviesApp
-Android Developer Nanodegree project 1
+Android Developer Nanodegree project
