@@ -6,14 +6,45 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.imentec.popularmoviesapp.http.TMDBApi;
+import com.imentec.popularmoviesapp.model.Movie;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+/*
+ * Copyright 2017 José Antonio Garcel
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /**
+ * NetworkUtils.java -
+ *
  * @author jagarcel
  * @date 03/02/2017
  */
@@ -30,13 +61,20 @@ public class NetworkUtils {
     public final static String POPULAR_MOVIES = "popular";
     public final static String TOP_RATED = "top_rated";
 
-    public static URL buildMoviesUrl(String path, String apiKey) {
-        Uri uri = Uri.parse(OPEN_DB_URL).buildUpon()
-                .appendPath(path)
-                .appendQueryParameter(APY_KEY_PARAM, apiKey)
+    public static TMDBApi getService () {
+        Gson gson = new GsonBuilder().setLenient().excludeFieldsWithoutExposeAnnotation().create();
+
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        OkHttpClient httpClient = new OkHttpClient.Builder().addInterceptor(logging).build();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(OPEN_DB_URL)
+                .client(httpClient)
                 .build();
 
-        return convertToURL(uri);
+        return retrofit.create(TMDBApi.class);
     }
 
     public static URL buildImageURL(String movieId) {
@@ -58,32 +96,6 @@ public class NetworkUtils {
         Log.v(TAG, "Built URI " + url);
 
         return url;
-    }
-
-    /**
-     * This method returns the entire result from the HTTP response.
-     *
-     * @param url The URL to fetch the HTTP response from.
-     * @return The contents of the HTTP response.
-     * @throws IOException Related to network and stream reading
-     */
-    public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            InputStream in = urlConnection.getInputStream();
-
-            Scanner scanner = new Scanner(in);
-            scanner.useDelimiter("\\A");
-
-            boolean hasInput = scanner.hasNext();
-            if (hasInput) {
-                return scanner.next();
-            } else {
-                return null;
-            }
-        } finally {
-            urlConnection.disconnect();
-        }
     }
 
     /**
