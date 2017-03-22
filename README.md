@@ -1,14 +1,16 @@
 # PopularMoviesApp
 Android Developer Nanodegree project
+
 [![udacity][1]][2]
-[1]: https://s3-us-west-1.amazonaws.com/udacity-content/degrees/catalog-images/Android.png
-[2]: https://www.udacity.com/course/associate-android-developer-fast-track--nd818
+
+[1]: (https://s3-us-west-1.amazonaws.com/udacity-content/degrees/catalog-images/Android.png)
+[2]: (https://www.udacity.com/course/associate-android-developer-fast-track--nd818)
 
 
 ## Third party libraries used
 -----------------------------
 * [Picasso](http://square.github.io/picasso/)
-
+* [ButterKnife](https://github.com/JakeWharton/butterknife/)
 
 License
 -------
