@@ -1,10 +1,3 @@
-package com.imentec.popularmoviesapp.model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -21,8 +14,15 @@ import java.util.List;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.model;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 /**
- * MovieResponse.java -
+ * MovieResponse.java - Models the API response from {@link com.imentec.popularmoviesapp.api.TMDBApi#fetchMovies(String, String)}.
  *
  * @author jagarcel
  * @date 03/02/2017

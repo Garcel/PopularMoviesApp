@@ -1,31 +1,3 @@
-package com.imentec.popularmoviesapp.utilities;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
-import android.util.Log;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.imentec.popularmoviesapp.http.TMDBApi;
-import com.imentec.popularmoviesapp.model.Movie;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Modifier;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Scanner;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -41,6 +13,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.imentec.popularmoviesapp.utilities;
+
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.imentec.popularmoviesapp.api.TMDBApi;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * NetworkUtils.java -
@@ -50,17 +43,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class NetworkUtils {
 
-    private static final String TAG = NetworkUtils.class.getSimpleName();
-
     private static final String OPEN_DB_URL = "https://api.themoviedb.org/3/movie/";
     private static final String OPEN_DB_MOVIE_URL = "http://image.tmdb.org/t/p/w500//";
 
-    private static final String APY_KEY_PARAM = "api_key";
-
-    /* popular movies path */
     public final static String POPULAR_MOVIES = "popular";
     public final static String TOP_RATED = "top_rated";
 
+    /**
+     * Return the Retrofit API service.
+     *
+     * @return
+     */
     public static TMDBApi getService () {
         Gson gson = new GsonBuilder().setLenient().excludeFieldsWithoutExposeAnnotation().create();
 
@@ -77,6 +70,12 @@ public class NetworkUtils {
         return retrofit.create(TMDBApi.class);
     }
 
+    /**
+     * Return the url for the given movie id.
+     *
+     * @param movieId
+     * @return
+     */
     public static URL buildImageURL(String movieId) {
         Uri uri = Uri.parse(OPEN_DB_MOVIE_URL).buildUpon()
                 .appendEncodedPath(movieId)
@@ -85,6 +84,12 @@ public class NetworkUtils {
         return convertToURL(uri);
     }
 
+    /**
+     * Turns an uri into an url.
+     *
+     * @param uri
+     * @return
+     */
     private static URL convertToURL (Uri uri) {
         URL url = null;
         try {
@@ -93,7 +98,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.v(TAG, "Built URI " + url);
+        Log.v(NetworkUtils.class.getName(), "Built URI " + url);
 
         return url;
     }
@@ -111,5 +116,19 @@ public class NetworkUtils {
 
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    /**
+     * Used to play the given trailer either with the Youtube app or with the web browser.
+     */
+    public static void watchYoutubeVideo(String id, Context context){
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
     }
 }

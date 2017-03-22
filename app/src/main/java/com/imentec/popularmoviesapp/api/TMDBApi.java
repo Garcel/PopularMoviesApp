@@ -1,14 +1,3 @@
-package com.imentec.popularmoviesapp.http;
-
-import com.imentec.popularmoviesapp.model.MovieResponse;
-import com.imentec.popularmoviesapp.model.ReviewResponse;
-import com.imentec.popularmoviesapp.model.TrailerResponse;
-
-import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -25,8 +14,19 @@ import retrofit2.http.Query;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.api;
+
+import com.imentec.popularmoviesapp.model.MovieResponse;
+import com.imentec.popularmoviesapp.model.ReviewResponse;
+import com.imentec.popularmoviesapp.model.TrailerResponse;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 /**
- * Utilities.java -
+ * TMDBApi.java - Models the API to be consumed by Retrofit.
  *
  * @author jagarcel
  * @date 14/02/2017

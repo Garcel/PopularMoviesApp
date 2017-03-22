@@ -14,31 +14,16 @@
  * limitations under the License.
  */
 
-package com.imentec.popularmoviesapp.model;
+package com.imentec.popularmoviesapp.listener;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
+import android.widget.ImageView;
 
 /**
- * TrailerResponse.java - Models the API response from {@link com.imentec.popularmoviesapp.api.TMDBApi#fetchTrailers(int, String)}.
+ * ItemBindListener.java - Interface to be implemented by the activities/ fragments handling item bindings.
  *
  * @author jagarcel
- * @date 03/02/2017
+ * @date 20/03/2017
  */
-public class TrailerResponse {
-
-    @Expose
-    public int id;
-    @Expose @SerializedName("results")
-    public List<Trailer> trailers;
-
-    public int getId() {
-        return id;
-    }
-
-    public List<Trailer> getTrailers() {
-        return trailers;
-    }
+public interface ItemBindListener {
+    void onItemBind(String posterPath, ImageView gridItemMovieView);
 }

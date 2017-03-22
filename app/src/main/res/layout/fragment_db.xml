@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <!--
   Copyright 2017 José Antonio Garcel
 
@@ -18,26 +16,30 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/trailer_item"
-    android:padding="@dimen/custom_padding_small" >
+    tools:context="com.imentec.popularmoviesapp.fragment.DBFragment">
 
-    <ImageView
-        android:id="@+id/iv_trailer_icon"
-        android:layout_width="@dimen/drawable_dimen"
-        android:layout_height="@dimen/drawable_dimen"
-        android:background="@android:drawable/ic_media_play" />
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        />
 
     <TextView
-        android:id="@+id/tv_trailer_id"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_error_message_display"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/trailer"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:gravity="center"
-        android:textSize="@dimen/text_size"
-        tools:text="#42" />
+        android:text="@string/fetch_movies_error_string"
+        android:textSize="@dimen/text_size_high"
+        android:padding="@dimen/custom_padding_low"
+        android:visibility="invisible"/>
 
+    <ProgressBar
+        android:layout_width="@dimen/drawable_dimen"
+        android:layout_height="@dimen/drawable_dimen"
+        android:id="@+id/pb_loading_indicator"
+        android:layout_gravity="center"
+        android:visibility="visible"/>
 </FrameLayout>

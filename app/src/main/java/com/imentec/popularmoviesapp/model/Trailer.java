@@ -1,7 +1,3 @@
-package com.imentec.popularmoviesapp.model;
-
-import com.google.gson.annotations.Expose;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -18,8 +14,12 @@ import com.google.gson.annotations.Expose;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.model;
+
+import com.google.gson.annotations.Expose;
+
 /**
- * Trailer.java -
+ * Trailer.java - Models the Trailer abstraction.
  *
  * @author jagarcel
  * @date 03/02/2017

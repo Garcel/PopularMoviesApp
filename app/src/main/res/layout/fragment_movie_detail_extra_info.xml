@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
   Copyright 2017 José Antonio Garcel
 
@@ -16,28 +15,31 @@
   limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/trailer_item"
-    android:padding="@dimen/custom_padding_small" >
+    tools:context="com.imentec.popularmoviesapp.fragment.MovieDetailExtraInfo"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_trailer_icon"
-        android:layout_width="@dimen/drawable_dimen"
-        android:layout_height="@dimen/drawable_dimen"
-        android:background="@android:drawable/ic_media_play" />
-
-    <TextView
-        android:id="@+id/tv_trailer_id"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/trailer"
-        style="@style/TextAppearance.AppCompat.Title"
-        android:gravity="center"
-        android:textSize="@dimen/text_size"
-        tools:text="#42" />
+        android:layout_height="@dimen/view_separator_height"
+        android:background="@android:color/darker_gray" />
 
-</FrameLayout>
+    <ListView
+        android:id="@+id/trailers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_separator_height"
+        android:background="@android:color/darker_gray" />
+
+    <ListView
+        android:id="@+id/reviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

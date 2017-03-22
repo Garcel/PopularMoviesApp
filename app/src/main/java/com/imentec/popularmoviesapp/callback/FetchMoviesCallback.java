@@ -1,9 +1,3 @@
-package com.imentec.popularmoviesapp.callback;
-
-import com.imentec.popularmoviesapp.model.MovieResponse;
-
-import retrofit2.Callback;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -20,8 +14,14 @@ import retrofit2.Callback;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.callback;
+
+import com.imentec.popularmoviesapp.model.MovieResponse;
+
+import retrofit2.Callback;
+
 /**
- * FetchMoviesCallback.java -
+ * FetchMoviesCallback.java - Model the callback interface consumed by Retrofit when collecting movies.
  *
  * @author jagarcel
  * @date 03/02/2017

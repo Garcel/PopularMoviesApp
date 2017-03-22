@@ -1,7 +1,3 @@
-package com.imentec.popularmoviesapp.db;
-
-import android.provider.BaseColumns;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -18,8 +14,12 @@ import android.provider.BaseColumns;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.db;
+
+import android.provider.BaseColumns;
+
 /**
- * MovieContract.java -
+ * MovieContract.java - DB contract for the table name "movie".
  *
  * @author jagarcel
  * @date 03/02/2017
@@ -31,7 +31,8 @@ public class MovieContract {
     /* Inner class that defines the table contents */
     public static class MovieEntry implements BaseColumns {
         public static final String TABLE_NAME = "movie";
-        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_ID = "_id";
+        public static final String COLUMN_NAME_MOVIE_ID = "movieId";
         public static final String COLUMN_NAME_POSTER_PATH = "posterPath";
         public static final String COLUMN_NAME_OVERVIEW = "overview";
         public static final String COLUMN_NAME_RELEASE_DATE = "releaseDate";

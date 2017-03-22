@@ -1,20 +1,3 @@
-package com.imentec.popularmoviesapp.adapter;
-
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.imentec.popularmoviesapp.R;
-import com.imentec.popularmoviesapp.model.Movie;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -31,29 +14,40 @@ import butterknife.ButterKnife;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.adapter;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.imentec.popularmoviesapp.R;
+import com.imentec.popularmoviesapp.listener.ItemBindListener;
+import com.imentec.popularmoviesapp.listener.ItemClickListener;
+import com.imentec.popularmoviesapp.model.Movie;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
- * MoviesAdapter.java -
+ * MoviesAdapter.java - Adapter used by {@link com.imentec.popularmoviesapp.fragment.RecyclerViewFragment}
+ * to map the movies into the recycler view.
  *
  * @author jagarcel
  * @date 03/02/2017
  */
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewHolder> {
 
-        final private GridItemClickListener mOnClickListener;
-        final private GridItemBindListener mOnBindListener;
+        final private ItemClickListener mOnClickListener;
+        final private ItemBindListener mOnBindListener;
 
         private List<Movie> movies;
 
-        public interface GridItemClickListener {
-            void onGridItemClick(int clickedItemIndex);
-        }
-
-        public interface GridItemBindListener {
-            void onGridItemBind(int itemIndex, ImageView gridItemMovieView);
-        }
-
-
-        public MoviesAdapter(GridItemClickListener clicklistener, GridItemBindListener bindListener) {
+        public MoviesAdapter(ItemClickListener clicklistener, ItemBindListener bindListener) {
             this.movies = new ArrayList<>();
             this.mOnClickListener = clicklistener;
             this.mOnBindListener = bindListener;
@@ -104,7 +98,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
              * @param listIndex Position of the item in the list
              */
             void bind(int listIndex) {
-                mOnBindListener.onGridItemBind(listIndex, gridItemMovieView);
+                mOnBindListener.onItemBind(movies.get(listIndex).getPosterPath(), gridItemMovieView);
             }
 
             /**
@@ -114,7 +108,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
             @Override
             public void onClick(View v) {
                 int clickedPosition = getAdapterPosition();
-                mOnClickListener.onGridItemClick(clickedPosition);
+                mOnClickListener.onItemClick(getMovies().get(clickedPosition));
             }
         }
 

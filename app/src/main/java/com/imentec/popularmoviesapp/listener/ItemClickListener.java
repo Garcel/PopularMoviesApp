@@ -1,10 +1,3 @@
-package com.imentec.popularmoviesapp.db;
-
-import com.activeandroid.query.Select;
-import com.imentec.popularmoviesapp.model.Movie;
-
-import java.util.List;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -21,24 +14,17 @@ import java.util.List;
  * limitations under the License.
  */
 
+package com.imentec.popularmoviesapp.listener;
+
+import com.imentec.popularmoviesapp.model.Movie;
+
 /**
- * MovieDao.java -
+ * ItemClickListener.java - Interface to be implemented by the activities/ fragments handling item
+ * click events.
  *
  * @author jagarcel
- * @date 03/02/2017
+ * @date 20/03/2017
  */
-public class MovieDao {
-
-    public static Movie getMovie(int movieId) {
-        return new Select()
-                .from(Movie.class)
-                .where("movie_id = ?", movieId)
-                .executeSingle();
-    }
-
-    public static List<Movie> getAllMovies() {
-        return new Select().all()
-                .from(Movie.class)
-                .execute();
-    }
+public interface ItemClickListener {
+    void onItemClick(Movie movie);
 }

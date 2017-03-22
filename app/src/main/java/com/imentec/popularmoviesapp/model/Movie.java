@@ -1,16 +1,3 @@
-package com.imentec.popularmoviesapp.model;
-
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.Arrays;
-
 /*
  * Copyright 2017 José Antonio Garcel
  *
@@ -26,53 +13,63 @@ import java.util.Arrays;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.imentec.popularmoviesapp.model;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.imentec.popularmoviesapp.db.MovieContract;
+
+import java.util.Arrays;
 
 /**
- * Movie.java - Used to model the Movie abstraction.
+ * Movie.java - Models the Movie abstraction.
  *
  * @author jagarcel
  * @date 03/02/2017
  */
-@Table(name = "movie")
-public class Movie extends Model implements Parcelable {
+public class Movie implements Parcelable {
 
-    @Column(name = "poster_path")
     @Expose @SerializedName("poster_path")
     private String posterPath;
-    @Column(name = "overview")
+
     @Expose
     private String overview;
-    @Column(name = "release_date")
+
     @Expose @SerializedName("release_date")
     private String releaseDate;
-    @Column(name = "genre_ids")
+
     @Expose @SerializedName("genre_ids")
     private int[] genreIds;
-    @Column(name = "movie_id", index = true)
+
     @Expose @SerializedName("id")
     private int movieId;
-    @Column(name = "original_title")
+
     @Expose @SerializedName("original_title")
     private String originalTitle;
-    @Column(name = "original_language")
+
     @Expose @SerializedName("original_language")
     private String originalLanguage;
-    @Column(name = "title")
+
     @Expose
     private String title;
-    @Column(name = "backdrop_path")
+
     @Expose @SerializedName("backdrop_path")
     private String backdropPath;
-    @Column(name = "popularity")
+
     @Expose
     private double popularity;
-    @Column(name = "vote_count")
+
     @Expose @SerializedName("vote_count")
     private long voteCount;
-    @Column(name = "has_video")
+
     @Expose @SerializedName("has_video")
     private boolean hasVideo;
-    @Column(name = "vote_average")
+
     @Expose @SerializedName("vote_average")
     private double voteAverage;
 
@@ -95,6 +92,43 @@ public class Movie extends Model implements Parcelable {
         hasVideo = in.readByte() != 0;
         voteAverage = in.readDouble();
     }
+
+    public Movie(Cursor cursor) {
+
+        // not stored
+        long movieDbId = cursor.getLong(0);
+        setMovieId(cursor.getInt(1));
+        setPosterPath(cursor.getString(2));
+        setTitle(cursor.getString(3));
+        setOverview(cursor.getString(4));
+        setReleaseDate(cursor.getString(5));
+        setOriginalTitle(cursor.getString(6));
+        setOriginalLanguage(cursor.getString(7));
+        setBackdropPath(cursor.getString(8));
+        setPopularity(cursor.getInt(9));
+        setVoteCount(cursor.getInt(10));
+        setHasVideo(cursor.getInt(11) == 0);
+        setVoteAverage(cursor.getInt(12));
+    }
+
+    public ContentValues getContentValues () {
+        ContentValues values = new ContentValues();
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_MOVIE_ID, getMovieId());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_ORIGINAL_TITLE, getOriginalTitle());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_BACKDROP_PATH, getBackdropPath());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_HAS_VIDEO, isHasVideo());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_ORIGINAL_LANGUAGE, getOriginalLanguage());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_OVERVIEW, getOverview());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_POSTER_PATH, getPosterPath());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_POPULARITY, getPopularity());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_RELEASE_DATE, getReleaseDate());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_VOTE_AVERAGE, getVoteAverage());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_VOTE_COUNT, getVoteCount());
+        values.put(MovieContract.MovieEntry.COLUMN_NAME_TITLE, getTitle());
+
+        return values;
+    }
+
 
     public String getPosterPath() {
         return posterPath;
@@ -202,4 +236,56 @@ public class Movie extends Model implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public void setGenreIds(int[] genreIds) {
+        this.genreIds = genreIds;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setPopularity(double popularity) {
+        this.popularity = popularity;
+    }
+
+    public void setVoteCount(long voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public void setHasVideo(boolean hasVideo) {
+        this.hasVideo = hasVideo;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
 }
