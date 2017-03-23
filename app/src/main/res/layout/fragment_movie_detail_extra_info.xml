@@ -27,7 +27,7 @@
         android:layout_height="@dimen/view_separator_height"
         android:background="@android:color/darker_gray" />
 
-    <ListView
+    <com.imentec.popularmoviesapp.view.NonScrollListView
         android:id="@+id/trailers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -37,7 +37,7 @@
         android:layout_height="@dimen/view_separator_height"
         android:background="@android:color/darker_gray" />
 
-    <ListView
+    <com.imentec.popularmoviesapp.view.NonScrollListView
         android:id="@+id/reviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

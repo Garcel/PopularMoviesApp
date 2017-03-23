@@ -23,8 +23,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.imentec.popularmoviesapp.R;
@@ -35,6 +33,7 @@ import com.imentec.popularmoviesapp.model.Movie;
 import com.imentec.popularmoviesapp.model.ReviewResponse;
 import com.imentec.popularmoviesapp.model.TrailerResponse;
 import com.imentec.popularmoviesapp.utilities.NetworkUtils;
+import com.imentec.popularmoviesapp.view.NonScrollListView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +51,8 @@ public class MovieDetailExtraInfo extends Fragment implements FetchMovieExtraInf
 
     private static final String MOVIE = "movie";
 
-    @BindView(R.id.trailers) ListView trailersView;
-    @BindView(R.id.reviews) ListView reviewsView;
+    @BindView(R.id.trailers) NonScrollListView trailersView;
+    @BindView(R.id.reviews) NonScrollListView reviewsView;
 
     public MovieDetailExtraInfo() {
         // Required empty public constructor
@@ -102,7 +101,6 @@ public class MovieDetailExtraInfo extends Fragment implements FetchMovieExtraInf
                 if (response != null && response.isSuccessful()) {
                     TrailerResponse trailerResponse = response.body();
                     trailersView.setAdapter(new TrailerAdapter(trailerResponse.getTrailers()));
-                    setListViewHeightBasedOnChildren(trailersView);
 
                 } else showErrorMessage(getString(R.string.fetch_trailers_error_string));
             }
@@ -122,7 +120,6 @@ public class MovieDetailExtraInfo extends Fragment implements FetchMovieExtraInf
                 if (response != null && response.isSuccessful()) {
                     ReviewResponse reviewResponse = response.body();
                     reviewsView.setAdapter(new ReviewAdapter(reviewResponse.getReviews()));
-                    setListViewHeightBasedOnChildren(reviewsView);
 
                 } else showErrorMessage(getString(R.string.fetch_reviews_error_string));
             }
@@ -139,29 +136,5 @@ public class MovieDetailExtraInfo extends Fragment implements FetchMovieExtraInf
      */
     private void showErrorMessage(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
-    }
-
-    /**** Method for Setting the Height of the ListView dynamically.
-     **** Hack to fix the issue of not showing all the items of the ListView
-     **** when placed inside a ScrollView  ****/
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 }
