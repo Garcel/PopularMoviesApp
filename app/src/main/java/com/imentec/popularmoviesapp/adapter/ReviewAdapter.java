@@ -16,6 +16,7 @@
 
 package com.imentec.popularmoviesapp.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,17 +52,38 @@ public class ReviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.review_item, null);
+        LayoutInflater inflater = (LayoutInflater) parent.getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        TextView reviewIdView = (TextView) itemView.findViewById(R.id.iv_review_id);
-        TextView reviewContentView = (TextView) itemView.findViewById(R.id.iv_review_text);
-        TextView reviewAuthor = (TextView) itemView.findViewById(R.id.iv_review_author);
+        // A holder will hold the references
+        // to your views.
+        ViewHodler holder;
+        View rowView = convertView;
+
+        if(rowView == null) {
+            rowView = inflater.inflate(R.layout.review_item, parent, false);
+            holder = new ViewHodler();
+            holder.reviewIdView = (TextView) rowView.findViewById(R.id.iv_review_id);
+            holder.reviewContentView = (TextView) rowView.findViewById(R.id.iv_review_text);
+            holder.reviewAuthor = (TextView) rowView.findViewById(R.id.iv_review_author);
+            rowView.setTag(holder);
+        }
+        else {
+            holder = (ViewHodler) rowView.getTag();
+        }
 
         // set content
-        reviewIdView.append(" " + (position + 1));
-        reviewContentView.setText(reviews.get(position).getContent());
-        reviewAuthor.append(" " + reviews.get(position).getAuthor());
+        holder.reviewIdView.setText(parent.getContext().getString(R.string.review, String.valueOf(position + 1)));
+        holder.reviewContentView.setText(reviews.get(position).getContent());
+        holder.reviewAuthor.setText(parent.getContext().getString(R.string.author, reviews.get(position).getAuthor()));
 
-        return itemView;
+        return rowView;
+    }
+
+    private class ViewHodler {
+        // declare your views here
+        TextView reviewIdView;
+        TextView reviewContentView;
+        TextView reviewAuthor;
     }
 }

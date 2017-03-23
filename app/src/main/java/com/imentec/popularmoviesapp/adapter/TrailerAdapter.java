@@ -16,11 +16,13 @@
 
 package com.imentec.popularmoviesapp.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.imentec.popularmoviesapp.R;
@@ -52,21 +54,44 @@ public class TrailerAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, final ViewGroup parent) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_item, null);
+        LayoutInflater inflater = (LayoutInflater) parent.getContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        TextView id  = (TextView) itemView.findViewById(R.id.tv_trailer_id);
-        id.append(" " + (position + 1));
+        // A holder will hold the references
+        // to your views.
+        ViewHodler holder;
+        View rowView = convertView;
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Trailer trailer = trailers.get(position);
-                Log.v(this.getClass().getName(), "Clicked trailer: " + trailer);
+        if(rowView == null) {
+            rowView = inflater.inflate(R.layout.trailer_item, parent, false);
+            holder = new ViewHodler();
+            holder.trailerId = (TextView) rowView.findViewById(R.id.tv_trailer_id);
+            holder.playIcon = (ImageView) rowView.findViewById(R.id.iv_trailer_icon);
+            rowView.setTag(holder);
 
-                NetworkUtils.watchYoutubeVideo(trailer.getKey(), parent.getContext());
-            }
-        });
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Trailer trailer = trailers.get(position);
+                    Log.v(this.getClass().getName(), "Clicked trailer: " + trailer);
 
-        return itemView;
+                    NetworkUtils.watchYoutubeVideo(trailer.getKey(), parent.getContext());
+                }
+            });
+        }
+        else {
+            holder = (ViewHodler) rowView.getTag();
+        }
+
+        // set content
+        holder.trailerId.setText(parent.getContext().getString(R.string.trailer, String.valueOf(position + 1)));
+
+        return rowView;
+    }
+
+    private class ViewHodler {
+        // declare your views here
+        TextView trailerId;
+        ImageView playIcon;
     }
 }

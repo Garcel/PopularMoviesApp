@@ -29,9 +29,9 @@
     <string name="fetch_trailers_error_string">There was an error collecting the trailers!</string>
     <string name="fetch_reviews_error_string">There was an error collecting the reviews!</string>
 
-    <string name="trailer">Trailer</string>
-    <string name="review">Review</string>
-    <string name="author">Author:</string>
+    <string name="trailer">Trailer %1$s </string>
+    <string name="review">Review %1$s </string>
+    <string name="author">Author: %1$s</string>
 
     <!-- Spinner values -->
     <string name="action_sort_popular_movies">Popular</string>
